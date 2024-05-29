@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "115736748352",
+    "project_id": "ezyretail-ddfee",
+    "storage_bucket": "ezyretail-ddfee.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:115736748352:android:a6f5e487f2e7bcd4eb1aa5",
+        "android_client_info": {
+          "package_name": "org.d3if3102.ezyretail"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCq8jfF0vc2M-L3QxuXRr38I7HJ12ew7Pk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
