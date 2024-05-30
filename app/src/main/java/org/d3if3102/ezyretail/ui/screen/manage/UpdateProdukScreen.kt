@@ -1,4 +1,4 @@
-package org.d3if3102.ezyretail.ui.screen.stok
+package org.d3if3102.ezyretail.ui.screen.manage
 
 import Produk
 import android.util.Log
@@ -18,7 +18,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
@@ -39,7 +38,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.google.firebase.firestore.FirebaseFirestore
 import org.d3if3102.ezyretail.R
 import org.d3if3102.ezyretail.navigation.Screen
 import org.d3if3102.ezyretail.ui.screen.authentication.MainViewModel
@@ -48,13 +46,14 @@ import org.d3if3102.ezyretail.ui.theme.EzyRetailTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun UpdateStokScreen(navController: NavHostController, viewModel: MainViewModel, produk: Produk) {
+fun UpdateProdukScreen(navController: NavHostController, viewModel: MainViewModel, produk: Produk) {
     LocalContext.current
 
     var namaProduk by remember { mutableStateOf(produk.namaProduk ?: "") }
     var hargaBeli by remember { mutableIntStateOf(produk.hargaBeli ?: 0) }
     var hargaJual by remember { mutableIntStateOf(produk.hargaJual ?: 0) }
     var stok by remember { mutableIntStateOf(produk.stok ?: 0) }
+    var deskripsi by remember { mutableStateOf(produk.deskripsi ?: "") }
 
     Scaffold(
         topBar = {
@@ -96,14 +95,13 @@ fun UpdateStokScreen(navController: NavHostController, viewModel: MainViewModel,
                     imeAction = ImeAction.Next
                 ),
                 colors = TextFieldDefaults.colors(
-                    unfocusedContainerColor = Color.White
+                    unfocusedContainerColor = Color.White,
+                    focusedContainerColor = Color.White
                 ),
-                readOnly = true,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(8.dp)
             )
-
             OutlinedTextField(
                 value = hargaBeli.toString(),
                 onValueChange = { hargaBeli = it.toIntOrNull() ?: 0 },
@@ -114,14 +112,13 @@ fun UpdateStokScreen(navController: NavHostController, viewModel: MainViewModel,
                     imeAction = ImeAction.Next
                 ),
                 colors = TextFieldDefaults.colors(
-                    unfocusedContainerColor = Color.White
+                    unfocusedContainerColor = Color.White,
+                    focusedContainerColor = Color.White
                 ),
-                readOnly = true,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(8.dp)
             )
-
             OutlinedTextField(
                 value = hargaJual.toString(),
                 onValueChange = { hargaJual = it.toIntOrNull() ?: 0 },
@@ -132,15 +129,14 @@ fun UpdateStokScreen(navController: NavHostController, viewModel: MainViewModel,
                     imeAction = ImeAction.Done
                 ),
                 colors = TextFieldDefaults.colors(
-                    unfocusedContainerColor = Color.White
+                    unfocusedContainerColor = Color.White,
+                    focusedContainerColor = Color.White
                 ),
-                readOnly = true,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(8.dp)
             )
-
-            TextField(
+            OutlinedTextField(
                 value = stok.toString(),
                 onValueChange = { stok = it.toIntOrNull() ?: 0 },
                 label = { Text(text = stringResource(id = R.string.add_stok)) },
@@ -158,14 +154,30 @@ fun UpdateStokScreen(navController: NavHostController, viewModel: MainViewModel,
                     .fillMaxWidth()
                     .padding(8.dp)
             )
-            Spacer(modifier = Modifier.padding(170.dp))
+            OutlinedTextField(
+                value = deskripsi,
+                onValueChange = { deskripsi = it },
+                label = { Text(text = stringResource(id = R.string.produck_description)) },
+                singleLine = true,
+                keyboardOptions = KeyboardOptions(
+                    capitalization = KeyboardCapitalization.Words,
+                    imeAction = ImeAction.Done
+                ),
+                colors = TextFieldDefaults.colors(
+                    unfocusedContainerColor = Color.White,
+                    focusedContainerColor = Color.White
+                ),
+                modifier = Modifier.fillMaxWidth().padding(8.dp)
+            )
+            Spacer(modifier = Modifier.padding(135.dp))
             Button(
                 onClick = {
                     val updatedProduk = produk.copy(
                         namaProduk = namaProduk,
                         hargaBeli = hargaBeli,
                         hargaJual = hargaJual,
-                        stok = stok
+                        stok = stok,
+                        deskripsi = deskripsi
                     )
                     viewModel.updateProduk(updatedProduk) { success, errorMessage ->
                         if (success) {
@@ -181,7 +193,7 @@ fun UpdateStokScreen(navController: NavHostController, viewModel: MainViewModel,
                 colors = ButtonDefaults.buttonColors(Color(0xFF6200EA))
             ) {
                 Text(
-                    text = "Update Stok",
+                    text = "Update Produk",
                     style = MaterialTheme.typography.titleLarge,
                     color = MaterialTheme.colorScheme.onPrimary
                 )
@@ -194,7 +206,7 @@ fun UpdateStokScreen(navController: NavHostController, viewModel: MainViewModel,
 @Composable
 fun AddStokScreenPreview () {
     EzyRetailTheme {
-        UpdateStokScreen(rememberNavController(), viewModel = MainViewModel(), produk = Produk())
+        UpdateProdukScreen(rememberNavController(), viewModel = MainViewModel(), produk = Produk())
     }
 }
 

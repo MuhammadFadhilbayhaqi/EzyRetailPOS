@@ -156,33 +156,24 @@ fun MainScreenContent(
                 ) {
                     items(4) { index ->
                         when (index) {
-//                            0 -> MenuItem(
-//                                iconId = R.mipmap.shop_logo,
-//                                onClick = { navController.navigate(Screen.AddToko.route) },
-//                                label = "Toko"
-//                            )
-
-                            2 -> MenuItem(
-                                iconId = R.mipmap.laporan_logo,
-                                onClick = { navController.navigate(Screen.Produk.route) },
-                                label = "Laporan"
-                            )
-
-                            1 -> MenuItem(
-                                iconId = R.mipmap.manage_logo,
-                                onClick = { navController.navigate(Screen.Stok.route) },
-                                label = "Manage"
-                            )
-
                             0 -> MenuItem(
                                 iconId = R.mipmap.produck_logo,
                                 onClick = { navController.navigate(Screen.Produk.route) },
                                 label = "Product"
                             )
-
+                            1 -> MenuItem(
+                                iconId = R.mipmap.manage_logo,
+                                onClick = { navController.navigate(Screen.Stok.route) },
+                                label = "Manage"
+                            )
+                            2 -> MenuItem(
+                                iconId = R.mipmap.laporan_logo,
+                                onClick = { navController.navigate(Screen.Riwayat.route) },
+                                label = "Laporan"
+                            )
                             3 -> MenuItem(
                                 iconId = R.mipmap.transaction_logo,
-                                onClick = { navController.navigate(Screen.Produk.route) },
+                                onClick = { navController.navigate(Screen.TransaksiMenu.route) },
                                 label = "Transaksi"
                             )
                         }
@@ -229,15 +220,15 @@ fun MenuItem(iconId: Int, label: String, onClick: () -> Unit) {
     }
 }
 
-@Composable
-fun LogoutButton(viewModel: MainViewModel, navController: NavHostController) {
-    IconButton(onClick = { viewModel.logout(navController) }) {
-        Icon(Icons.Outlined.ExitToApp,
-            contentDescription = stringResource(R.string.logout),
-            tint = Color.Black,
-            )
-    }
-}
+//@Composable
+//fun LogoutButton(viewModel: MainViewModel, navController: NavHostController) {
+//    IconButton(onClick = { viewModel.logout(navController) }) {
+//        Icon(Icons.Outlined.ExitToApp,
+//            contentDescription = stringResource(R.string.logout),
+//            tint = Color.Black,
+//            )
+//    }
+//}
 
 @Preview(showBackground = true)
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_NO, showBackground = true)

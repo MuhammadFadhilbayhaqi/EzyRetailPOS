@@ -50,6 +50,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import org.d3if3102.ezyretail.R
 //import org.d3if3102.ezyretail.model.Produk
@@ -234,46 +235,48 @@ fun AddProduckContent(
 }
 
 
-fun saveProduk(
-    auth: FirebaseAuth,
-    namaProduk: String,
-    hargaBeli: Int,
-    hargaJual: Int,
-    deskripsi: String,
-    context: Context,
-    onComplete: (Boolean, String?) -> Unit
-) {
-    val userId = auth.currentUser?.uid
-    if (userId != null) {
-        val db = FirebaseFirestore.getInstance()
 
-        // buat id dokumen unik (primary key)
-        val produkId = UUID.randomUUID().toString()
 
-        val tanaman = Produk(
-            id = produkId,
-            namaProduk = namaProduk,
-            hargaBeli = hargaBeli,
-            hargaJual = hargaJual,
-            deskripsi = deskripsi
-        )
+        fun saveProduk(
+            auth: FirebaseAuth,
+            namaProduk: String,
+            hargaBeli: Int,
+            hargaJual: Int,
+            deskripsi: String,
+            context: Context,
+            onComplete: (Boolean, String?) -> Unit
+        ) {
+            val userId = auth.currentUser?.uid
+            if (userId != null) {
+                val db = FirebaseFirestore.getInstance()
 
-        db.collection("users").document(userId).collection("produk") //path penyimpanan
-            .document(produkId)
-            .set(tanaman)
-            .addOnSuccessListener {
-                onComplete(true, null)
+                // buat id dokumen unik (primary key)
+                val produkId = UUID.randomUUID().toString()
+
+                val tanaman = Produk(
+                    id = produkId,
+                    namaProduk = namaProduk,
+                    hargaBeli = hargaBeli,
+                    hargaJual = hargaJual,
+                    deskripsi = deskripsi
+                )
+
+                db.collection("users").document(userId).collection("produk") //path penyimpanan
+                    .document(produkId)
+                    .set(tanaman)
+                    .addOnSuccessListener {
+                        onComplete(true, null)
+                    }
+                    .addOnFailureListener { e ->
+                        onComplete(false, e.message)
+                    }
+            } else {
+                onComplete(false, "User not logged in")
             }
-            .addOnFailureListener { e ->
-                onComplete(false, e.message)
-            }
-    } else {
-        onComplete(false, "User not logged in")
-    }
-}
+        }
 
-@Preview(showBackground = true)
-@Preview(uiMode = Configuration.UI_MODE_NIGHT_NO, showBackground = true)
+        @Preview(showBackground = true)
+    @Preview(uiMode = Configuration.UI_MODE_NIGHT_NO, showBackground = true)
 @Composable
 fun AddScreenPreview() {
     EzyRetailTheme {

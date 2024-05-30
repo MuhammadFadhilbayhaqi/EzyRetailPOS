@@ -11,15 +11,18 @@ import org.d3if3102.ezyretail.ui.screen.authentication.MainViewModel
 import org.d3if3102.ezyretail.ui.screen.authentication.RegisterScreen
 import org.d3if3102.ezyretail.ui.screen.laporan.LaporanPenjualanScreen
 import org.d3if3102.ezyretail.ui.screen.produck.AddProduckScreen
-import org.d3if3102.ezyretail.ui.screen.produck.EditProdukScreen
 import org.d3if3102.ezyretail.ui.screen.produck.ProdukScreen
 //import org.d3if3102.ezyretail.ui.screen.produck.ProduckScreen
-import org.d3if3102.ezyretail.ui.screen.stok.StokScreen
-import org.d3if3102.ezyretail.ui.screen.stok.UpdateStokScreen
+import org.d3if3102.ezyretail.ui.screen.manage.StokScreen
+import org.d3if3102.ezyretail.ui.screen.manage.UpdateProdukScreen
 //import org.d3if3102.ezyretail.ui.screen.produck.ProdukScreen
 //import org.d3if3102.ezyretail.ui.screen.stok.AddStokScreen
 //import org.d3if3102.ezyretail.ui.screen.stok.StokScreen
 import org.d3if3102.ezyretail.ui.screen.toko.AddTokoScreen
+import org.d3if3102.ezyretail.ui.screen.transaksi.KeranjangScreen
+import org.d3if3102.ezyretail.ui.screen.transaksi.RiwayatScreen
+import org.d3if3102.ezyretail.ui.screen.transaksi.TransakiMenuScreen
+import org.d3if3102.ezyretail.ui.screen.transaksi.TransaksiScreen
 
 @Composable
 fun SetupNavGraph(
@@ -60,13 +63,29 @@ fun SetupNavGraph(
             val produkId = backStackEntry.arguments?.getString("produkId") ?: return@composable
             val produk = viewModel.produkList.value.find { it.id == produkId } ?: return@composable
 
-            EditProdukScreen(navController = navController, viewModel = viewModel, produk = produk)
+            UpdateProdukScreen(navController = navController, viewModel = viewModel, produk = produk)
         }
         composable("edit_stok_screen/{produkId}") { backStackEntry ->
             val produkId = backStackEntry.arguments?.getString("produkId") ?: return@composable
             val produk = viewModel.produkList.value.find { it.id == produkId } ?: return@composable
 
-            UpdateStokScreen(navController = navController, viewModel = viewModel, produk = produk)
+            UpdateProdukScreen(navController = navController, viewModel = viewModel, produk = produk)
+        }
+        composable(route = Screen.TransaksiMenu.route) {
+            TransakiMenuScreen(navController, viewModel)
+        }
+        composable("transaksi_screen/{produkId}") { backStackEntry ->
+            val produkId = backStackEntry.arguments?.getString("produkId") ?: return@composable
+            val produk = viewModel.produkList.value.find { it.id == produkId } ?: return@composable
+
+            TransaksiScreen(navController = navController, MainViewModel(),produk = produk)
+        }
+        composable(route = Screen.Keranjang.route) {
+            KeranjangScreen(navController, viewModel)
+        }
+
+        composable(route = Screen.Riwayat.route) {
+            RiwayatScreen(navController, viewModel)
         }
     }
 }

@@ -1,8 +1,9 @@
-package org.d3if3102.ezyretail.ui.screen.stok
+package org.d3if3102.ezyretail.ui.screen.manage
 
 import Produk
 import android.content.res.Configuration
 import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -16,6 +17,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -31,6 +33,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -43,6 +48,7 @@ import androidx.navigation.compose.rememberNavController
 import com.google.firebase.auth.FirebaseAuth
 import org.d3if3102.ezyretail.R
 import org.d3if3102.ezyretail.ui.screen.authentication.MainViewModel
+import org.d3if3102.ezyretail.ui.screen.transaksi.SearchField
 import org.d3if3102.ezyretail.ui.theme.EzyRetailTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -50,6 +56,7 @@ import org.d3if3102.ezyretail.ui.theme.EzyRetailTheme
 fun StokScreen(navController: NavHostController, viewModel: MainViewModel) {
     val auth = FirebaseAuth.getInstance()
     val currentUser by viewModel.currentUser.collectAsState()
+    var searchQuery by remember { mutableStateOf("") }
 
     Scaffold(
         topBar = {
@@ -75,13 +82,22 @@ fun StokScreen(navController: NavHostController, viewModel: MainViewModel) {
                 ),
             )
         },
-    ) { innerPadding ->
-        StokScreenContent(modifier = Modifier.padding(innerPadding), navController, viewModel)
+    ) { Padding ->
+        Box (
+            modifier = Modifier.padding(top = 16.dp)
+        ){
+            Column (
+                modifier = Modifier.padding(Padding)
+            ){
+                SearchField(searchQuery = searchQuery, onQueryChange = { searchQuery = it })
+                ManageScreenContent(modifier = Modifier.padding(top = 4.dp), navController, viewModel, searchQuery)
+            }
+        }
     }
 }
 
 @Composable
-fun StokScreenContent(modifier: Modifier, navController: NavHostController, viewModel: MainViewModel) {
+fun ManageScreenContent(modifier: Modifier, navController: NavHostController, viewModel: MainViewModel, searchQuery: String) {
     val currentUser by viewModel.currentUser.collectAsState()
     val produkList by viewModel.produkList.collectAsState()
 
@@ -90,22 +106,28 @@ fun StokScreenContent(modifier: Modifier, navController: NavHostController, view
             viewModel.getProdukList(userId)
         }
     }
+    val filteredProdukList = produkList.filter {
+        it.namaProduk?.contains(searchQuery, ignoreCase = true) == true
+    }
     Column(
         modifier = modifier
             .fillMaxSize()
             .padding(16.dp),
     ){
-        if (produkList.isNotEmpty()) {
+        if (filteredProdukList.isNotEmpty()) {
             LazyColumn {
-                items(produkList) { produk ->
-                    StokItem(
+                items(filteredProdukList) { produk ->
+                    ProdukItem(
                         produk = produk,
                         onEditClick = { produk ->
-                            navController.navigate("edit_stok_screen/${produk.id}") {
+                            navController.navigate("edit_produk_screen/${produk.id}") {
                                 // Sertakan data produk sebagai argumen navigasi
                                 launchSingleTop = true
                                 restoreState = true
                             }
+                        },
+                        onDeleteClick = {
+                            viewModel.deleteProduk(produk)
                         }
                     )
                 }
@@ -113,26 +135,28 @@ fun StokScreenContent(modifier: Modifier, navController: NavHostController, view
         }
         else {
             Text(
-                text = "Stok Belum Tersedia",
+                text = stringResource(id = R.string.tidak_ada_produk),
                 textAlign = TextAlign.Center,
-                modifier = Modifier.fillMaxSize().padding(16.dp),
-                color = Color.Black
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(16.dp),
+                color = Color.Black,
             )
         }
     }
 }
 
 @Composable
-fun StokItem(produk: Produk, onEditClick: (Produk) -> Unit) {
+fun ProdukItem(produk: Produk, onEditClick: (Produk) -> Unit, onDeleteClick: () -> Unit) {
     Card(
         modifier = Modifier
-            .padding(8.dp)
+            .padding(top = 8.dp, bottom = 8.dp)
             .fillMaxWidth()
             .border(2.dp, Color.Black, shape = RoundedCornerShape(16.dp)),
         colors = CardDefaults.cardColors(Color.White),
     ) {
         Column(
-            modifier = Modifier.padding(8.dp)
+            modifier = Modifier.padding(16.dp)
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
@@ -158,18 +182,29 @@ fun StokItem(produk: Produk, onEditClick: (Produk) -> Unit) {
                     Spacer(modifier = Modifier.height(8.dp))
                     Text(
                         text = "Stok : ${produk.stok ?: 0}",
+                        style = MaterialTheme.typography.bodyLarge,
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text(
+                        text = produk.deskripsi ?: "",
                         style = MaterialTheme.typography.bodyLarge
                     )
                 }
                 //buatkan viewmodel untuk edit atau update beserta screen edit nya
-                IconButton(
-                    onClick = { onEditClick(produk) }
-                ) {
-                    // Sertakan produk saat memanggil onEditClick
+                IconButton(onClick = { onEditClick(produk) }) { // Sertakan produk saat memanggil onEditClick
                     Icon(
                         imageVector = Icons.Filled.Edit,
                         contentDescription = stringResource(R.string.edit),
                         tint = Color.Black
+                    )
+                }
+                IconButton(
+                    onClick = onDeleteClick
+                ) {
+                    Icon(
+                        imageVector = Icons.Filled.Delete,
+                        contentDescription = stringResource(R.string.delete),
+                        tint = Color.Red
                     )
                 }
             }
