@@ -9,16 +9,10 @@ import org.d3if3102.ezyretail.ui.screen.MainMenu
 import org.d3if3102.ezyretail.ui.screen.authentication.LoginScreen
 import org.d3if3102.ezyretail.ui.screen.authentication.MainViewModel
 import org.d3if3102.ezyretail.ui.screen.authentication.RegisterScreen
-import org.d3if3102.ezyretail.ui.screen.laporan.LaporanPenjualanScreen
 import org.d3if3102.ezyretail.ui.screen.produck.AddProduckScreen
 import org.d3if3102.ezyretail.ui.screen.produck.ProdukScreen
-//import org.d3if3102.ezyretail.ui.screen.produck.ProduckScreen
 import org.d3if3102.ezyretail.ui.screen.manage.StokScreen
 import org.d3if3102.ezyretail.ui.screen.manage.UpdateProdukScreen
-//import org.d3if3102.ezyretail.ui.screen.produck.ProdukScreen
-//import org.d3if3102.ezyretail.ui.screen.stok.AddStokScreen
-//import org.d3if3102.ezyretail.ui.screen.stok.StokScreen
-import org.d3if3102.ezyretail.ui.screen.toko.AddTokoScreen
 import org.d3if3102.ezyretail.ui.screen.transaksi.KeranjangScreen
 import org.d3if3102.ezyretail.ui.screen.transaksi.RiwayatScreen
 import org.d3if3102.ezyretail.ui.screen.transaksi.TransakiMenuScreen
@@ -43,9 +37,6 @@ fun SetupNavGraph(
         composable(route = Screen.MainMenu.route) {
             MainMenu(navController, viewModel = MainViewModel())
         }
-        composable(route = Screen.AddToko.route) {
-            AddTokoScreen(navController)
-        }
         composable(route = Screen.Produk.route) {
             ProdukScreen(navController, viewModel)
         }
@@ -55,9 +46,6 @@ fun SetupNavGraph(
 
         composable(route = Screen.Stok.route) {
             StokScreen(navController, viewModel)
-        }
-        composable(route = Screen.LaporanPenjualan.route) {
-            LaporanPenjualanScreen(navController)
         }
         composable("edit_produk_screen/{produkId}") { backStackEntry ->
             val produkId = backStackEntry.arguments?.getString("produkId") ?: return@composable

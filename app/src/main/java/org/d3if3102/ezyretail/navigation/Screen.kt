@@ -10,10 +10,7 @@ sealed class Screen (val route: String) {
     data object Produk : Screen("produck")
     data object AddProdukBaru : Screen("addproduk")
     data object Stok : Screen("stok")
-    data object UpdateStok : Screen("addstokscreen")
     data object TransaksiMenu : Screen("transaksimenu")
-    data object Transaksi : Screen("transaksi")
-    data object LaporanPenjualan : Screen("laporanpenjualan")
     data object Keranjang : Screen("keranjang")
 
     data object Riwayat : Screen("riwayat")

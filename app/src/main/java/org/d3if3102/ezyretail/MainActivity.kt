@@ -47,27 +47,3 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-
-//class MainActivity : ComponentActivity() {
-//
-//    //cek user login ora
-//    private val auth: FirebaseAuth by lazy {
-//        FirebaseAuth.getInstance()
-//    }
-//
-//    override fun onCreate(savedInstanceState: Bundle?) {
-//        super.onCreate(savedInstanceState)
-//        setContent {
-//            TemanPakdeTheme {
-//                Surface(
-//                    modifier = Modifier.fillMaxSize(),
-//                    color = MaterialTheme.colorScheme.background
-//                ) {
-//                    val navController = rememberNavController()
-//                    val mainViewModel: MainViewModel = viewModel()
-//                    SetupNavGraph(navController = navController, viewModel = mainViewModel, auth = auth)
-//                }
-//            }
-//        }
-//    }
-//}

@@ -47,6 +47,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.google.firebase.auth.FirebaseAuth
 import org.d3if3102.ezyretail.R
+import org.d3if3102.ezyretail.navigation.Screen
 import org.d3if3102.ezyretail.ui.screen.authentication.MainViewModel
 import org.d3if3102.ezyretail.ui.screen.transaksi.SearchField
 import org.d3if3102.ezyretail.ui.theme.EzyRetailTheme
@@ -62,7 +63,7 @@ fun StokScreen(navController: NavHostController, viewModel: MainViewModel) {
         topBar = {
             TopAppBar(
                 navigationIcon = {
-                    IconButton(onClick = { navController.popBackStack() }) {
+                    IconButton(onClick = { navController.navigate(Screen.MainMenu.route) }) {
                         Icon(
                             imageVector = Icons.Filled.ArrowBack,
                             contentDescription = stringResource(id = R.string.back),
@@ -152,7 +153,7 @@ fun ProdukItem(produk: Produk, onEditClick: (Produk) -> Unit, onDeleteClick: () 
         modifier = Modifier
             .padding(top = 8.dp, bottom = 8.dp)
             .fillMaxWidth()
-            .border(2.dp, Color.Black, shape = RoundedCornerShape(16.dp)),
+            .border(1.dp, Color.Black, shape = RoundedCornerShape(8.dp)),
         colors = CardDefaults.cardColors(Color.White),
     ) {
         Column(

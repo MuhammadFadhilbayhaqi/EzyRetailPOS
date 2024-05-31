@@ -127,20 +127,20 @@ fun EditProdukScreen(navController: NavHostController, viewModel: MainViewModel,
                 modifier = Modifier.fillMaxWidth().padding(8.dp)
             )
 
-            TextField(
-                value = deskripsi,
-                onValueChange = { deskripsi = it },
-                label = { Text(text = stringResource(id = R.string.produck_description)) },
-                singleLine = true,
-                keyboardOptions = KeyboardOptions(
-                    capitalization = KeyboardCapitalization.Words,
-                    imeAction = ImeAction.Done
-                ),
-                colors = TextFieldDefaults.colors(
-                    unfocusedContainerColor = Color.White
-                ),
-                modifier = Modifier.fillMaxWidth().padding(8.dp)
-            )
+                TextField(
+                    value = deskripsi,
+                    onValueChange = { deskripsi = it },
+                    label = { Text(text = stringResource(id = R.string.produck_description)) },
+                    singleLine = true,
+                    keyboardOptions = KeyboardOptions(
+                        capitalization = KeyboardCapitalization.Words,
+                        imeAction = ImeAction.Done
+                    ),
+                    colors = TextFieldDefaults.colors(
+                        unfocusedContainerColor = Color.White
+                    ),
+                    modifier = Modifier.fillMaxWidth().padding(8.dp)
+                )
 
             Button(
                 onClick = {

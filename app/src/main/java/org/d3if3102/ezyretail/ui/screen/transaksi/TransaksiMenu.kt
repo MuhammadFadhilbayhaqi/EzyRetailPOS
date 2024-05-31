@@ -67,7 +67,7 @@ fun TransakiMenuScreen(navController: NavHostController, viewModel: MainViewMode
         topBar = {
             TopAppBar(
                 navigationIcon = {
-                    IconButton(onClick = { navController.popBackStack() }) {
+                    IconButton(onClick = { navController.navigate(Screen.MainMenu.route) }) {
                         Icon(
                             imageVector = Icons.Filled.ArrowBack,
                             contentDescription = stringResource(id = R.string.back),
@@ -101,36 +101,37 @@ fun TransakiMenuScreen(navController: NavHostController, viewModel: MainViewMode
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(20.dp)
                 ) {
-                    Row {
-                        Icon(
-                            imageVector = Icons.Filled.Clear,
-                            contentDescription = "Clear",
-                            tint = Color.White
-                        )
-                        Text(
-                            text = "Clear",
-                            color = Color.White,
-                        )
-                    }
-                    Spacer(modifier = Modifier.width(16.dp))
-                    Row {
-                        Icon(
-                            imageVector = Icons.Filled.ShoppingCart,
-                            contentDescription = "Cart",
-                            tint = Color.White
-                        )
-                        Text(
-                            text = "0 item",
-                            color = Color.White,
-                            modifier = Modifier.padding(start = 4.dp)
-                        )
-                    }
-                    Spacer(modifier = Modifier.width(16.dp))
-                    Text(
-                        text = "Rp.0",
-                        color = Color.White,
-                        modifier = Modifier.padding(start = 4.dp)
-                    )
+                    Text(text = "Keranjang", color = Color.White)
+//                    Row {
+//                        Icon(
+//                            imageVector = Icons.Filled.Clear,
+//                            contentDescription = "Clear",
+//                            tint = Color.White
+//                        )
+//                        Text(
+//                            text = "Clear",
+//                            color = Color.White,
+//                        )
+//                    }
+//                    Spacer(modifier = Modifier.width(16.dp))
+//                    Row {
+//                        Icon(
+//                            imageVector = Icons.Filled.ShoppingCart,
+//                            contentDescription = "Cart",
+//                            tint = Color.White
+//                        )
+//                        Text(
+//                            text = "0 item",
+//                            color = Color.White,
+//                            modifier = Modifier.padding(start = 4.dp)
+//                        )
+//                    }
+//                    Spacer(modifier = Modifier.width(16.dp))
+//                    Text(
+//                        text = "Rp.0",
+//                        color = Color.White,
+//                        modifier = Modifier.padding(start = 4.dp)
+//                    )
                 }
             }
         }
@@ -227,85 +228,6 @@ fun StokItem(produk: Produk, onItemClick: (Produk) -> Unit) {
     }
 }
 
-
-//@Composable
-//fun TransaksiMenuContent(modifier: Modifier, navController: NavHostController, viewModel: MainViewModel, searchQuery: String) {
-//    val currentUser by viewModel.currentUser.collectAsState()
-//    val produkList by viewModel.produkList.collectAsState()
-//
-//    LaunchedEffect(currentUser) {
-//        currentUser?.uid?.let { userId ->
-//            viewModel.getProdukList(userId)
-//        }
-//    }
-//
-//    val filteredProdukList = produkList.filter {
-//        it.namaProduk?.contains(searchQuery, ignoreCase = true) == true
-//    }
-//
-//    Column(
-//        modifier = modifier
-//            .fillMaxSize()
-//            .padding(top = 8.dp),
-//    ) {
-//        if (filteredProdukList.isNotEmpty()) {
-//            LazyColumn {
-//                items(filteredProdukList) { produk ->
-//                    StokItem(
-//                        produk = produk,
-//                        onEditClick = { produk ->
-//                            // Navigasi ke TransaksiScreen dengan membawa data produk
-//                            navController.navigate("transaksi_screen/${produk.id}") {
-//                                launchSingleTop = true
-//                                restoreState = true
-//                            }
-//                        }
-//                    )
-//                }
-//            }
-//        } else {
-//            Text(
-//                text = "Stok Belum Tersedia",
-//                textAlign = TextAlign.Center,
-//                modifier = Modifier
-//                    .fillMaxSize()
-//                    .padding(16.dp),
-//                color = Color.Black,
-//            )
-//        }
-//    }
-//}
-//
-//@Composable
-//fun StokItem(produk: Produk, onEditClick: (Produk) -> Unit) {
-//    Column(
-//        modifier = Modifier
-//            .fillMaxWidth()
-//            .padding(horizontal = 16.dp, vertical = 8.dp)
-//            .clickable { onEditClick(produk) } // Tambahkan onClick untuk navigasi
-//    ) {
-//        Text(
-//            text = produk.namaProduk ?: "Unknown",
-//            style = MaterialTheme.typography.titleLarge
-//        )
-//        Row(
-//            modifier = Modifier
-//                .fillMaxWidth()
-//                .padding(vertical = 8.dp),
-//            horizontalArrangement = Arrangement.SpaceBetween
-//        ) {
-//            Text(
-//                text = "Rp. ${produk.hargaJual ?: 0}",
-//                style = MaterialTheme.typography.bodyLarge,
-//            )
-//            Text(
-//                text = "Stok : ${produk.stok ?: 0}",
-//                style = MaterialTheme.typography.bodyLarge)
-//        }
-//        Divider(color = Color.Gray, thickness = 1.dp, modifier = Modifier.padding(top = 4.dp))
-//    }
-//}
-
 @Composable
 fun SearchField(searchQuery: String, onQueryChange: (String) -> Unit) {
     Column(
@@ -340,211 +262,3 @@ fun TransaksiMenuScreenPreview() {
         TransakiMenuScreen(rememberNavController(), viewModel = MainViewModel())
     }
 }
-
-
-//@OptIn(ExperimentalMaterial3Api::class)
-//@Composable
-//fun TransakiMenuScreen(navController: NavHostController, viewModel: MainViewModel) {
-//    val auth = FirebaseAuth.getInstance()
-//    val currentUser by viewModel.currentUser.collectAsState()
-//    var searchQuery by remember { mutableStateOf("") }
-//
-//    Scaffold(
-//        topBar = {
-//            TopAppBar(
-//                navigationIcon = {
-//                    IconButton(onClick = { navController.popBackStack() }) {
-//                        Icon(
-//                            imageVector = Icons.Filled.ArrowBack,
-//                            contentDescription = stringResource(id = R.string.back),
-//                            tint = Color.White
-//                        )
-//                    }
-//                },
-//                title = {
-//                    Text(
-//                        text = "Transaksi",
-//                        color = Color.White
-//                    )
-//                },
-//                colors = TopAppBarDefaults.mediumTopAppBarColors(
-//                    containerColor = Color(0xFF6200EE),
-//                    titleContentColor = MaterialTheme.colorScheme.primary,
-//                ),
-//            )
-//        },
-//        floatingActionButton = {
-//            FloatingActionButton(
-//                onClick = { /*TODO: Add action here*/ },
-//                containerColor = Color(0xFF6200EA),
-//                shape = RoundedCornerShape(35), // Fully rounded corners
-//                modifier = Modifier
-//                    .padding(16.dp)
-//                    .width(330.dp)
-//            ) {
-//                Row(
-//                    modifier = Modifier.padding(horizontal = 8.dp, vertical = 8.dp),
-//                    verticalAlignment = Alignment.CenterVertically,
-//                    horizontalArrangement = Arrangement.spacedBy(20.dp)
-//                ) {
-//                    Row {
-//                        Icon(
-//                            imageVector = Icons.Filled.Clear,
-//                            contentDescription = "Clear",
-//                            tint = Color.White
-//                        )
-//                        Text(
-//                            text = "Clear",
-//                            color = Color.White,
-//                        )
-//                    }
-//                    Spacer(modifier = Modifier.width(16.dp))
-//                    Row {
-//                        Icon(
-//                            imageVector = Icons.Filled.ShoppingCart,
-//                            contentDescription = "Cart",
-//                            tint = Color.White
-//                        )
-//                        Text(
-//                            text = "0 item",
-//                            color = Color.White,
-//                            modifier = Modifier.padding(start = 4.dp)
-//                        )
-//                    }
-//                    Spacer(modifier = Modifier.width(16.dp))
-//                    Text(
-//                        text = "Rp.0",
-//                        color = Color.White,
-//                        modifier = Modifier.padding(start = 4.dp)
-//                    )
-//                }
-//            }
-//        }
-//    ) { Padding ->
-//        Box (
-//            modifier = Modifier.padding(top = 16.dp)
-//        ){
-//            Column (
-//                modifier = Modifier.padding(Padding)
-//            ){
-//                SearchField(searchQuery = searchQuery, onQueryChange = { searchQuery = it })
-//                Divider(color = Color.Gray, thickness = 1.dp, modifier = Modifier.padding(top = 4.dp))
-//                TransaksiMenuContent(modifier = Modifier.padding(top = 4.dp), navController, viewModel,  searchQuery = searchQuery)
-//            }
-//        }
-//    }
-//}
-//
-//@Composable
-//fun TransaksiMenuContent(modifier: Modifier, navController: NavHostController, viewModel: MainViewModel, searchQuery: String) {
-//    val currentUser by viewModel.currentUser.collectAsState()
-//    val produkList by viewModel.produkList.collectAsState()
-//
-//    LaunchedEffect(currentUser) {
-//        currentUser?.uid?.let { userId ->
-//            viewModel.getProdukList(userId)
-//        }
-//    }
-//
-//    val filteredProdukList = produkList.filter {
-//        it.namaProduk?.contains(searchQuery, ignoreCase = true) == true
-//    }
-//
-//    Column(
-//        modifier = modifier
-//            .fillMaxSize()
-//            .padding(top = 8.dp),
-//    ) {
-//        if (filteredProdukList.isNotEmpty()) {
-//            LazyColumn {
-//                items(filteredProdukList) { produk ->
-//                    StokItem(
-//                        produk = produk,
-//                        onEditClick = { produk ->
-//                            navController.navigate("edit_stok_screen/${produk.id}") {
-//                                // Sertakan data produk sebagai argumen navigasi
-//                                launchSingleTop = true
-//                                restoreState = true
-//                            }
-//                        }
-//                    )
-//                }
-//            }
-//        } else {
-//            Text(
-//                text = "Stok Belum Tersedia",
-//                textAlign = TextAlign.Center,
-//                modifier = Modifier
-//                    .fillMaxSize()
-//                    .padding(16.dp),
-//                color = Color.Black,
-//            )
-//        }
-//    }
-//}
-//
-//
-//@Composable
-//fun StokItem(produk: Produk, onEditClick: (Produk) -> Unit) {
-//    Column(
-//        modifier = Modifier
-//            .fillMaxWidth()
-//            .padding(horizontal = 16.dp, vertical = 8.dp)
-//    ) {
-//        Text(
-//            text = produk.namaProduk ?: "Unknown",
-//            style = MaterialTheme.typography.titleLarge
-//        )
-//        Row(
-//            modifier = Modifier
-//                .fillMaxWidth()
-//                .padding(vertical = 8.dp),
-//            horizontalArrangement = Arrangement.SpaceBetween
-//        ) {
-//            Text(
-//                text = "Rp. ${produk.hargaJual ?: 0}",
-//                style = MaterialTheme.typography.bodyLarge,
-//            )
-//            Text(
-//                text = "Stok : ${produk.stok ?: 0}",
-//                style = MaterialTheme.typography.bodyLarge)
-//        }
-//        Divider(color = Color.Gray, thickness = 1.dp, modifier = Modifier.padding(top = 4.dp))
-//    }
-//}
-//
-//
-//@Composable
-//fun SearchField(searchQuery: String, onQueryChange: (String) -> Unit) {
-//    Column(
-//        modifier = Modifier.padding(10.dp)
-//    ) {
-//        OutlinedTextField(
-//            value = searchQuery,
-//            onValueChange = { onQueryChange(it) },
-//            modifier = Modifier
-//                .fillMaxWidth()
-//                .background(Color.White, shape = RoundedCornerShape(4.dp)),
-//            placeholder = {
-//                Text(text = stringResource(id = R.string.search))
-//            },
-//            trailingIcon = {
-//                Icon(Icons.Filled.Search, contentDescription = null)
-//            },
-//            singleLine = true,
-//            keyboardOptions = KeyboardOptions.Default.copy(
-//                capitalization = KeyboardCapitalization.None,
-//                autoCorrect = true,
-//                imeAction = ImeAction.Search
-//            )
-//        )
-//    }
-//}
-//
-//@Preview(showBackground = true)
-//@Composable
-//fun TransaksiMenuScreenPreview() {
-//    EzyRetailTheme {
-//        TransakiMenuScreen(rememberNavController(), viewModel = MainViewModel())
-//    }
-//}
